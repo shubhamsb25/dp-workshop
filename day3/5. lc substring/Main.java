@@ -9,47 +9,46 @@ public class Main {
     StringTokenizer st;
     StringBuilder sb = new StringBuilder();
 
-    char[] a,b;
-    int n,m;
-    
-    int[][] dp=new int[1000][1000];
-    
+    char[] a, b;
+    int n, m;
+
+    int[][] dp = new int[1000][1000];
+
     public void solve() throws IOException {
-        for(int[] a:dp)
-            Arrays.fill(a,-1);
-        
+        for (int[] a : dp)
+            Arrays.fill(a, -1);
+
         st = new StringTokenizer(br.readLine());
-        a=st.nextToken().toCharArray();
-        b=st.nextToken().toCharArray();
-        n=a.length;
-        m=b.length;
-        
-        int max=0;
-        for(int i=0;i<n;i++)
-            for(int j=0;j<m;j++){
-                max=Math.max(max,rec(i,j));
+        a = st.nextToken().toCharArray();
+        b = st.nextToken().toCharArray();
+        n = a.length;
+        m = b.length;
+
+        int max = 0;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++) {
+                max = Math.max(max, rec(i, j));
             }
-        
+
         sb.append(max).append("\n");
     }
-    
-    private int rec(int x,int y){ //longest common substring starting at x and y
-        if(x==n || y==m){
+
+    private int rec(int x, int y) { // longest common substring starting at x and y
+        if (x == n || y == m) {
             return 0;
         }
-        if(dp[x][y]!=-1)
+        if (dp[x][y] != -1)
             return dp[x][y];
-        
-        int ans=0;
-        if(a[x]==b[y]){
-            ans = 1+rec(x+1,y+1);
-        }
-        else{
+
+        int ans = 0;
+        if (a[x] == b[y]) {
+            ans = 1 + rec(x + 1, y + 1);
+        } else {
             ans = 0;
         }
-        return dp[x][y]=ans;
+        return dp[x][y] = ans;
     }
-    
+
     private void swap(int[] ar, int i, int j) {
         int temp = ar[i];
         ar[i] = ar[j];

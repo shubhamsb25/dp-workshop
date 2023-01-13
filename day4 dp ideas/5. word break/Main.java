@@ -28,11 +28,10 @@ public class Main {
             words.add(br.readLine());
         }
 
-        String ans = dp(sentence.length() - 1) == 1 ? "YES" : "NO";
+        String ans = dp(sentence.length() - 1) == 1 ? "Yes" : "No";
         sb.append(ans).append("\n");
     }
 
-    // TODO: TCs are failing
     private int dp(int level) { // possible to create sentence using given words till [0..level]
         if (level < 0) {
             return 1;

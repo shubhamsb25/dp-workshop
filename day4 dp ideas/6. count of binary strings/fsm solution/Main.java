@@ -22,6 +22,7 @@ public class Main {
         sb.append(rec(0, 0)).append("\n");
     }
 
+    // TODO: fails for long value of n
     private int rec(int level, int state) { // count of strings in which 0100 is not a substring
         if (state == 4) {
             return 0;

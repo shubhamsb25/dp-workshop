@@ -7,84 +7,50 @@ public class Main {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st;
     StringBuilder sb = new StringBuilder();
-    
-    int n,m,k;
-    int[][] ar;
-    int[][] prefix;
 
+    int n, m, k;
+    int[][] ar;
+
+    // TODO: test case not passing
     public void solve() throws IOException {
-        
         st = new StringTokenizer(br.readLine());
-        n=Integer.parseInt(st.nextToken());
-        m=Integer.parseInt(st.nextToken());
-        k=Integer.parseInt(st.nextToken());
-        
-        ar=new int[n][m];
-        prefix=new int[n][m];
-        
-        for(int i=0;i<n;i++){
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+ 
+        ar = new int[n + 1][m + 1];
+
+        // ref: http://ihaventyetdecided.blogspot.com/2010/10/kadanes-2d-algorithm.html
+
+        for (int i = 1; i <= n; i++) {
             st = new StringTokenizer(br.readLine());
-            for(int j=0;j<m;j++){
-                ar[i][j]=Integer.parseInt(st.nextToken());
+            for (int j = 1; j <= m; j++) {
+                ar[i][j] = Integer.parseInt(st.nextToken());
+                ar[i][j] += ar[i - 1][j];
             }
         }
-        
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                int ans=0;
-                if(i>0){
-                    ans+=prefix[i-1][j];
+
+        int[] sum = new int[m + 1];
+        int size = 0;
+        for (int rowStart = 1; rowStart <= n; rowStart++) {
+            for (int rowEnd = rowStart; rowEnd <= n; rowEnd++) {
+                int cur = 0;
+                int start = 1;
+
+                for (int col = 1; col <= m; col++) {
+                    sum[col] = ar[rowEnd][col] - ar[rowStart - 1][col];
+                    cur += sum[col];
+                    if (cur <= k) {
+                        size = Math.max(size, (col - start + 1) * (rowEnd - rowStart + 1));
+                    } else {
+                        cur = sum[col];
+                        start = col;
+                    }
                 }
-                if(j>0){
-                    ans+=prefix[i][j-1];
-                }
-                if(i>0 && j>0){
-                    ans-=prefix[i-1][j-1];
-                }
-                ans+=ar[i][j];
-                prefix[i][j]=ans;
             }
         }
-        
-        // TODO: test case not passing
-        int max=0;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                int size=0;
-                if(i==0 && j==0){
-                    if(ar[i][j]<=k){
-                        size=1;
-                    }
-                }
-                else{
-                    if(j==0){
-                        if(prefix[i][j]<=k){
-                            size=Math.max(size,i+1);
-                        }
-                    }
-                    else if(i==0){
-                        if(prefix[i][j]<=k){
-                            size=Math.max(size,j+1);
-                        }
-                    }
-                    else{
-                        if(prefix[i][j]<=k){
-                            size=Math.max(size,(i+1)*(j+1));
-                        }
-                        else if(prefix[i][j]-prefix[i][j-1]<=k){
-                            size=Math.max(size,i+1);
-                        }
-                        else if(prefix[i][j]-prefix[i-1][j]<=k){
-                            size=Math.max(size,j+1);
-                        }
-                    }
-                }
-                
-                max=Math.max(max,size);
-            }
-        }
-        
-        sb.append(max).append("\n");
+
+        sb.append(size).append("\n");
     }
 
     private void swap(int[] ar, int i, int j) {
@@ -136,3 +102,6 @@ public class Main {
         main.multipleCaseRunner();
     }
 }
+
+
+

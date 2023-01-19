@@ -37,7 +37,7 @@ public class Main {
         sb.append(rec(0,0));
     }
 
-    private long rec(int level, int taken) { //max value we can get using [level...n] given 'amount' as weight taken
+    private long rec(int level, int taken) { //max value we can get using [level...n] given 'taken' as weight taken
         if (level == n) {
             return 0;
         }

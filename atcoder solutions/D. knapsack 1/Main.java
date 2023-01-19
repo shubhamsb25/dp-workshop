@@ -37,7 +37,7 @@ public class Main {
         sb.append(rec(0,0));
     }
 
-    private long rec(int level, int taken) {// max happiness from [1..n] if start with 'last' activity
+    private long rec(int level, int taken) { //max value we can get using [level...n] given 'amount' as weight taken
         if (level == n) {
             return 0;
         }

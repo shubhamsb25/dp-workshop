@@ -13,7 +13,6 @@ public class Main {
     long[][] dp;
     int mod=(int)1e9+7;
 
-    //TODO: all test cases not passing
     public void solve() throws IOException {
         st = new StringTokenizer(br.readLine());
         n=Integer.parseInt(st.nextToken());
@@ -33,16 +32,19 @@ public class Main {
         for(int kid=1;kid<=n;kid++){
             for(int candy=0;candy<=k;candy++){
                 if(candy>0){
-                    dp[kid-1][candy]+=dp[kid-1][candy-1];
+                    dp[kid-1][candy]=(dp[kid-1][candy]+dp[kid-1][candy-1])%mod;
                 }
-                dp[kid-1][candy]%=mod;
                 
                 int limit=Math.max(0,candy-ar[kid]);
                 
                 long ways=dp[kid-1][candy];
                 
                 if(limit>0){
+                    //we have taken mod, so reducing can make it less than zero
                     ways-=dp[kid-1][limit-1];
+                    if(ways<0){
+                        ways+=mod;
+                    }
                 }
                 
                 dp[kid][candy]=ways;

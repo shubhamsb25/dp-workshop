@@ -47,7 +47,6 @@ public class Main {
                 
                 dp[kid][candy]=ways;
             }
-            System.out.println(Arrays.toString(dp[kid]));
         }
         
         sb.append(dp[n][k]);
